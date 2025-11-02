@@ -1,23 +1,19 @@
-# comments
-运行于Cloudflare Workers的评论系统，使用KV存储数据，提交评论需要hCaptcha人机验证防止滥用
+# URTalk
+运行于 Cloudflare Workers 的评论系统，使用KV存储数据，提交评论需要hCaptcha人机验证防止滥用，可联动 Telegram Bot 评论推送
 
 # 介绍
 
 我在做我的[静态博客](https://itman-terminal.pages.dev/)，想着静态博客，缺个评论区，于是就做了一个；网页部分，我实在不会，于是就用AI做了个前端页面，感觉...还行（？
 
-![主页](home.PNG)
-
 ## 已经实现的功能
 
-现在呢还处于火柴盒阶段，属于基本功能做出来了：
+基本功能做出来了：
 
 - 站长与访客之间的区分（站长在昵称输入站长的特定昵称后将会显示为站长）
 - 使用hCaptcha防止提交API滥用
 - 对于还未开放的评论区，禁止评论
 - 点赞功能
-- 楼中楼关系的显示（下图）
-![楼中楼](lzl.PNG)
-
+- 楼中楼关系的显示
 ## 未来计划（？
 
 下面是一些将来计划的功能（但估计一咕就是很久很久了hh，将来会慢慢还愿的
@@ -30,7 +26,7 @@
 
 ## 主代码
 
-转到[Cloudflare Workers](https://dash.cloudflare.com/login?redirect_uri=https%3A%2F%2Fdash.cloudflare.com%2F%3Faccount%3Dworkers)新建项目，选中`Hello World`，命名，例如`comments`，转到编辑代码，将所有代码删除，找到项目最新版本的目录的`workers.js`，粘贴代码。
+转到[Cloudflare Workers](https://dash.cloudflare.com/login?redirect_uri=https%3A%2F%2Fdash.cloudflare.com%2F%3Faccount%3Dworkers)新建项目，选中`Hello World`，命名，例如`URTalk`，转到编辑代码，将所有代码删除，找到项目最新版本的目录的`workers.js`，粘贴代码。
 
 从网上找一个UUID生成器，生成一个UUID后在开头中寻找`deda5ce1-2e42-4cf9-bbae-0ce7f2cba55e`，替换为生成的随机UUID;
 
@@ -56,8 +52,7 @@
 对下方路径POST：
 `xxx.workers.dev/api/new/{ADMIN_SUBMIT_UUID}/{article_path}`
 
-这里的`{ADMIN_SUBMIT_UUID}`就是注释里面写的站长提交ID。`{article_path}`为开放的评论区，转到`http://xxx.workers.dev/?article={article_path}`即可评论
-
+这里的`{ADMIN_SUBMIT_UUID}`就是注释里面写的站长提交ID。`{article_path}`为开放的评论区，现在通过引用提供的 js 文件:`https://xxx.workers.dev/main.js?article=ID`，此处 ID 即为评论区 ID
 ## 如何作为站长发布评论？
 
 将昵称填入为`{ADMIN_SUBMIT_UUID}`即可
@@ -77,3 +72,4 @@
 创建`TELEGRAM_BOT_TOKEN`，类型选机密，填入你的Bot Token
 
 创建`TELEGRAM_CHAT_ID`，类型选文本，填入聊天ID（私聊就填用户ID，用户需要先使用Bot;群组需要加入;频道的话需要开启权限，自己找教程）
+
